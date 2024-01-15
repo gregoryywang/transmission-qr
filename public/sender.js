@@ -8,13 +8,23 @@ document.getElementById('senderBtn').addEventListener('click', function() {
 
 document.getElementById('generateQR').addEventListener('click', function() {
     const fileInput = document.getElementById('fileInput');
+    const generateQRButton = document.getElementById('generateQR');
     const file = fileInput.files[0];
+
     if (file) {
-        readFile(file);
+        // Disable the button to prevent duplicate clicks
+        generateQRButton.disabled = true;
+
+        // Read and process the file
+        readFile(file, function() {
+            // Display the first QR code after all QR codes have been generated
+            displayQRCode(currentQRIndex);
+            // Re-enable the button after processing
+            generateQRButton.disabled = false;
+        });
     }
-    // After generating QR code data for each chunk
-    displayQRCode(currentQRIndex);  // Display the first QR code
 });
+
 
 document.getElementById('nextQR').addEventListener('click', function() {
     currentQRIndex++;
@@ -26,9 +36,12 @@ function updateProgress(current, total) {
     progressElement.textContent = `QR Code ${current} of ${total}`;
 }
 
-function readFile(file) {
+function readFile(file, callback) {
     const reader = new FileReader();
     reader.onload = function(e) {
+        // Clear the array before adding new QR codes
+        qrCodeDataArray = [];
+
         const fileData = e.target.result;
         const chunkSize = 1024; // size in bytes, adjust as needed
         const totalChunks = Math.ceil(fileData.length / chunkSize);
@@ -40,12 +53,18 @@ function readFile(file) {
             fileSize: file.size,
             fileType: file.type
         };
+       
         generateQRCode(JSON.stringify(handshakeData));
 
         // Generate QR code for each chunk
         for (let i = 0; i < totalChunks; i++) {
             let chunk = fileData.slice(i * chunkSize, (i + 1) * chunkSize);
             generateQRCode(JSON.stringify({ index: i, data: chunk }));
+        }
+
+        // Call the callback function after all QR codes have been generated
+        if (typeof callback === "function") {
+            callback();
         }
     };
     reader.readAsDataURL(file); // Or readAsBinaryString, depending on your needs
