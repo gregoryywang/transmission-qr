@@ -6,6 +6,12 @@ document.getElementById('senderBtn').addEventListener('click', function() {
     document.getElementById('receiver').style.display = 'none';
 });
 
+document.getElementById('resetSender').addEventListener('click', function() {
+    document.getElementById('fileInput').value = ''; // Clear the file input
+    document.getElementById('qrCodeDisplayArea').innerHTML = ''; // Clear the QR code display area
+    document.getElementById('progressDisplay').textContent = ''; // Clear the progress display
+});
+
 document.getElementById('generateQR').addEventListener('click', function() {
     const fileInput = document.getElementById('fileInput');
     const generateQRButton = document.getElementById('generateQR');
