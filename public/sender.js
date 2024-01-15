@@ -43,7 +43,7 @@ function readFile(file, callback) {
         qrCodeDataArray = [];
 
         const fileData = e.target.result;
-        const chunkSize = 1024; // size in bytes, adjust as needed
+        const chunkSize = 512; // size in bytes, adjust as needed
         const totalChunks = Math.ceil(fileData.length / chunkSize);
 
         // Handshake QR code

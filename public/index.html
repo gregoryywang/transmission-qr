@@ -14,14 +14,16 @@
     <div id="sender" style="display:none;">
         <input type="file" id="fileInput">
         <button id="generateQR">Generate QR Codes</button>
-        <div id="qrCodeDisplayArea"></div> 
-        <button id="nextQR">Next QR Code</button> 
-        <div id="progressDisplay"></div> 
+        <div id="qrCodeDisplayArea"></div>
+        <button id="nextQR">Next QR Code</button>
+        <div id="progressDisplay"></div>
     </div>
 
     <div id="receiver" style="display:none;">
         <video id="qrVideo" width="400" height="300" style="border:1px solid black;"></video>
         <button id="startScan">Start Scanning</button>
+        <button id="stopScan">Stop Scanning</button> 
+        <div id="scanStatus">Scanning...</div> 
     </div>
 
     <script src="sender.js"></script>

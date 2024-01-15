@@ -22,6 +22,19 @@ document.getElementById('startScan').addEventListener('click', function() {
     } else {
         console.error('MediaDevices interface not available.');
     }
+    scanning = true; 
+    scanQRCode();    
+});
+
+document.getElementById('stopScan').addEventListener('click', function() {
+    scanning = false;
+    if (videoElement.srcObject) {
+        let tracks = videoElement.srcObject.getTracks();
+        tracks.forEach(track => track.stop());
+    }
+    videoElement.srcObject = null;
+    document.getElementById('scanStatus').textContent = 'Scanning stopped';
+    videoElement.style.borderColor = 'initial'; // Reset border color
 });
 
 function scanQRCode() {
@@ -36,9 +49,20 @@ function scanQRCode() {
 
         if (code) {
             handleDecodedData(code.data);
-            scanning = false;  // Stop scanning after successful decode (or adjust as needed)
+
+            // Provide visual feedback
+            document.getElementById('scanStatus').textContent = 'QR Code Scanned. Please show the next QR code.';
+            videoElement.style.borderColor = 'green'; // Change border color to indicate success
+
+            // Continue scanning for the next QR code after a short delay
+            scanning = true;
+            setTimeout(() => {
+                requestAnimationFrame(scanQRCode);
+            }, 10000); // Adjust delay as needed
         } else {
-            // Continue scanning if no QR code found
+            // Reset visual feedback if no code is found
+            document.getElementById('scanStatus').textContent = 'Scanning...';
+            videoElement.style.borderColor = 'red'; // Default color when scanning
             requestAnimationFrame(scanQRCode);
         }
     } else {
@@ -50,21 +74,24 @@ let receivedChunks = [];
 let fileMetadata = null;
 
 function handleDecodedData(data) {
-    let decodedData = JSON.parse(data);
-
-    if (decodedData.handshake) {
-        // Handle handshake data
-        fileMetadata = decodedData;
-        console.log("Handshake received:", fileMetadata);
-    } else {
-        // Handle file data chunk
-        receivedChunks[decodedData.index] = decodedData.data;
-        console.log(`Received chunk ${decodedData.index}`);
-
-        // Check if all chunks are received
-        if (receivedChunks.length === fileMetadata.totalChunks) {
-            reconstructFile();
+    try {
+        let decodedData = JSON.parse(data);
+        if (decodedData.totalChunks) {
+            // Handle handshake data
+            fileMetadata = decodedData;
+            console.log("Handshake received:", fileMetadata);
+        } else {
+            // Handle file data chunk
+            receivedChunks[decodedData.index] = decodedData.data;
+            console.log(`Received chunk ${decodedData.index}`);
+    
+            // Check if all chunks are received
+            if (receivedChunks.filter(chunk => chunk !== undefined).length === fileMetadata.totalChunks) {
+                reconstructFile();
+            }
         }
+    } catch (error) {
+        console.error('Error parsing QR code data:', error);
     }
 }
 
