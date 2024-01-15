@@ -58,7 +58,7 @@ function scanQRCode() {
             scanning = true;
             setTimeout(() => {
                 requestAnimationFrame(scanQRCode);
-            }, 10000); // Adjust delay as needed
+            }, 5000); // Adjust delay as needed
         } else {
             // Reset visual feedback if no code is found
             document.getElementById('scanStatus').textContent = 'Scanning...';
@@ -96,27 +96,20 @@ function handleDecodedData(data) {
 }
 
 function reconstructFile() {
-    // Combine all received chunks to form the complete Data URL
     let completeDataUrl = receivedChunks.join('');
     console.log("File reconstructed");
 
     // Convert the Data URL to a Blob
     let blob = dataURLToBlob(completeDataUrl);
 
-    // Create a URL for the Blob and download or display the file
-    let blobUrl = URL.createObjectURL(blob);
-
-    // Example: Handling based on file type
     if (fileMetadata.fileType.startsWith('image/')) {
         // Display the image
         let img = document.createElement('img');
-        img.src = blobUrl;
+        img.src = URL.createObjectURL(blob);
         document.body.appendChild(img);
-    } else if (fileMetadata.fileType === 'text/plain') {
-        // Download or display the text file
-        downloadFile(blob, fileMetadata.fileName);
     } else {
-        // Handle other file types as needed
+        // For other file types, trigger a download
+        downloadFile(blob, fileMetadata.fileName);
     }
 }
 
