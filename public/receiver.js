@@ -1,6 +1,6 @@
 document.getElementById('receiverBtn').addEventListener('click', function() {
     document.getElementById('receiver').style.display = 'block';
-    // Hide the sender UI if necessary
+    document.getElementById('sender').style.display = 'none';
 });
 
 let videoElement = document.getElementById('qrVideo');

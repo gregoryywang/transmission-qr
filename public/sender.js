@@ -3,7 +3,7 @@ let qrCodeDataArray = [];
 
 document.getElementById('senderBtn').addEventListener('click', function() {
     document.getElementById('sender').style.display = 'block';
-    // Hide the receiver UI if necessary
+    document.getElementById('receiver').style.display = 'none';
 });
 
 document.getElementById('generateQR').addEventListener('click', function() {
