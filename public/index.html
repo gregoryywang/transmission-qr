@@ -2,32 +2,41 @@
 <html>
 <head>
     <title>QR Code Data Transmission</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-    <h1>QR Code Data Transmission</h1>
-    <button id="senderBtn">Sender Mode</button>
-    <button id="receiverBtn">Receiver Mode</button>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">QR Code Data Transmission</h1>
+        
+        <div class="text-center mb-3">
+            <button id="senderBtn" class="btn btn-primary mr-2">Sender Mode</button>
+            <button id="receiverBtn" class="btn btn-primary mr-2">Receiver Mode</button>
+        </div>
 
-    <div id="sender" style="display:none;">
-        <input type="file" id="fileInput">
-        <button id="generateQR">Generate QR Codes</button>
-        <div id="qrCodeDisplayArea"></div>
-        <button id="nextQR">Next QR Code</button>
-        <div id="progressDisplay"></div>
-        <button id="resetSender">Reset Sender</button>
-    </div>
+        <div id="sender" class="d-none">
+            <input type="file" id="fileInput" class="form-control-file mb-2">
+            <button id="generateQR" class="btn btn-success mb-2">Generate QR Codes</button>
+            <div id="qrCodeDisplayArea" class="mb-2"></div>
+            <button id="nextQR" class="btn btn-info mb-2">Next QR Code</button>
+            <div id="progressDisplay" class="mb-2"></div>
+            <button id="resetSender" class="btn btn-warning">Reset Sender</button>
+        </div>
 
-    <div id="receiver" style="display:none;">
-        <video id="qrVideo" width="400" height="300" style="border:1px solid black;"></video>
-        <button id="startScan">Start Scanning</button>
-        <button id="stopScan">Stop Scanning</button> 
-        <div id="scanStatus">Scanning...</div> 
+        <div id="receiver" class="d-none">
+            <video id="qrVideo" width="400" height="300" class="mb-2" style="border:1px solid black;"></video>
+            <div class="mb-3">
+                <button id="startScan" class="btn btn-success mr-2">Start Scanning</button>
+                <button id="stopScan" class="btn btn-danger">Stop Scanning</button>
+            </div>
+            <div id="scanStatus" class="mb-2">Scanning...</div>
+        </div>
     </div>
 
     <script src="sender.js"></script>
     <script src="receiver.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,6 @@
 document.getElementById('receiverBtn').addEventListener('click', function() {
-    document.getElementById('receiver').style.display = 'block';
-    document.getElementById('sender').style.display = 'none';
+    document.getElementById('receiver').classList.remove('d-none');
+    document.getElementById('sender').classList.add('d-none');
 });
 
 let videoElement = document.getElementById('qrVideo');

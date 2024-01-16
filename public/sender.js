@@ -2,8 +2,8 @@ let currentQRIndex = 0;
 let qrCodeDataArray = [];
 
 document.getElementById('senderBtn').addEventListener('click', function() {
-    document.getElementById('sender').style.display = 'block';
-    document.getElementById('receiver').style.display = 'none';
+    document.getElementById('sender').classList.remove('d-none');
+    document.getElementById('receiver').classList.add('d-none');
 });
 
 document.getElementById('resetSender').addEventListener('click', function() {
