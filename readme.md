@@ -1,5 +1,10 @@
 # Transmission-QR
 
+## Try it out!
+
+This app can be found here: https://transmission-qr.onrender.com
+Due to server resources may take up to a minute to load.
+
 ## Overview
 This project is a web-based application that enables the transmission of files via QR codes. Whereas most apps of this type use QR codes as merely a way of transmitting the download URL of the file, this app transmits the actual data of the file in the QR codes itself. It consists of two main components: a sender and a receiver. The sender can convert any file into a series of QR codes, which are then displayed on the screen. The receiver can scan these QR codes using a camera and reconstruct the original file.
 
